@@ -1,17 +1,26 @@
 const std = @import("std");
+const fs = @import("./component/fs.zig");
 
 pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
-
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
     const stdout_file = std.io.getStdOut().writer();
     var bw = std.io.bufferedWriter(stdout_file);
     const stdout = bw.writer();
 
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
+    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena.deinit();
+    const allocator = arena.allocator();
+
+    const fileSystem = try fs.FileSystem.init(allocator);
+    defer fileSystem.deinit();
+
+    var listOfConfigs: [1][]const u8 = undefined;
+    listOfConfigs[0] = ".task.toml";
+    const tryPath = try fileSystem.findConfig(".", &listOfConfigs);
+    if (tryPath) |path| {
+        try stdout.print("path: {s}\n", .{path});
+    } else {
+        try stdout.print("failed to get path\n", .{});
+    }
 
     try bw.flush(); // don't forget to flush!
 }
