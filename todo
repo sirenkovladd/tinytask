@@ -1,0 +1,24 @@
+[ ] - find config file
+[ ] - TOML parser
+[ ] - execute tasks
+[ ] - alias
+[ ] - call task in cmds
+[ ] - env
+[ ] - env file
+[ ] - vars (replace template)
+[ ] - vars with attribute
+[ ] - add dependency
+[ ] - join same calls
+[ ] - add import external configs
+[ ] - cache (timestamp)
+[ ] - cache (sha)
+[ ] - watch (interval)
+[ ] - watch (event file change)
+[ ] - vars command (spread, time, join, OS, ARCH exec)
+[ ] - cmds defer (cmd)
+[ ] - cmds defer (task)
+[ ] - conditionals (cmd)
+[ ] - conditionals (file)
+[ ] - conditionals (exists)
+[ ] - conditionals (platform)
+
