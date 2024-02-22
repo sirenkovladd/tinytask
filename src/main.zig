@@ -1,5 +1,6 @@
 const std = @import("std");
 const fs = @import("./component/fs.zig");
+const cfg = @import("./component/config.zig");
 
 pub fn main() !void {
     const stdout_file = std.io.getStdOut().writer();
@@ -15,9 +16,11 @@ pub fn main() !void {
 
     var listOfConfigs: [1][]const u8 = undefined;
     listOfConfigs[0] = ".task.toml";
-    const tryPath = try fileSystem.findConfig(".", &listOfConfigs);
-    if (tryPath) |path| {
-        try stdout.print("path: {s}\n", .{path});
+    const tryFile = try fileSystem.findConfig(".", &listOfConfigs);
+    if (tryFile) |file| {
+        const config = try cfg.Config.init(file, allocator);
+        defer config.deinit();
+        _ = try config.getTask("qwe");
     } else {
         try stdout.print("failed to get path\n", .{});
     }

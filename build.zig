@@ -15,6 +15,9 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
+    const tomlZigName = "toml-zig";
+    const tomlZig = b.addModule(tomlZigName, .{ .root_source_file = .{ .path = "lib/toml/src/value.zig" } });
+
     const lib = b.addStaticLibrary(.{
         .name = "tinytask",
         // In this case the main source file is merely a path, however, in more
@@ -23,6 +26,8 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+
+    lib.root_module.addImport(tomlZigName, tomlZig);
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
@@ -35,6 +40,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    exe.root_module.addImport(tomlZigName, tomlZig);
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
