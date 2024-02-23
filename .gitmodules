@@ -1,3 +1,0 @@
-[submodule "lib/toml"]
-	path = lib/toml
-	url = https://codeberg.org/sirenkovladd/toml-zig.git

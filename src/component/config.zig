@@ -10,12 +10,12 @@ const ParserError = error{
 };
 
 const CustomParser = struct {
-    tokenstream: *toml.TokenStream,
+    tokenstream: *toml.value.TokenStream,
     alloc: std.mem.Allocator,
 
     fn init(body: []const u8, alloc: std.mem.Allocator) !CustomParser {
         std.debug.print("1 getTask {s}\n", .{body});
-        var tokenstream = toml.TokenStream.init(body);
+        var tokenstream = toml.value.TokenStream.init(body);
         return CustomParser{ .tokenstream = &tokenstream, .alloc = alloc };
     }
 
